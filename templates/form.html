@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Анкета чек-апа</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f0f2f5; margin: 0; }
+        
+        .card { 
+            background: white; 
+            padding: 2.5rem 2rem; 
+            border-radius: 15px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+            width: 400px; 
+            position: relative; 
+            text-align: center; 
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #007bff;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        h2 {
+            color: #007bff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
+        
+        select, input { 
+            width: 100%; 
+            padding: 10px; 
+            border-radius: 5px; 
+            border: 1px solid #ccc; 
+            box-sizing: border-box; 
+            font-size: 14px;
+        }
+
+        /* МАГИЯ ЦВЕТА ДЛЯ ПОЛА */
+        /* Пока ничего не выбрано (placeholder) — текст серый */
+        select:invalid {
+            color: #888;
+        }
+        /* Когда выбор сделан — текст становится черным */
+        select:not(:invalid) {
+            color: #333;
+        }
+        /* Опции внутри списка всегда черные */
+        option {
+            color: #333;
+        }
+
+        .hint { font-size: 11px; color: #888; margin-top: 5px; }
+        
+        button.submit-btn { 
+            width: 100%; 
+            background: #007bff; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-top: 10px; 
+            font-weight: bold; 
+            font-size: 16px;
+        }
+        
+        button.submit-btn:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <a href="/" class="back-btn">←</a>
+
+        <h2>📋 Анкета</h2>
+        <p class="description">Введите, пожалуйста, некоторые данные по вашему здоровью, на основе которых будут сформированы рекомендации для чек-апа</p>
+
+        <form id="checkupForm" action="/result" method="post">
+            <div class="form-group">
+                <label>Ваш пол:</label>
+                <select name="gender" id="genderSelect" required>
+                    <option value="" disabled selected hidden>Выберите свой пол</option>
+                    <option value="male">Мужской</option>
+                    <option value="female">Женский</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Ваш возраст:</label>
+                <input type="text" id="ageInput" name="age" placeholder="Введите число" required>
+                <p class="hint">*рекомендации могут быть сформированы для людей в возрасте от 18 до 100 лет</p>
+            </div>
+
+            <button type="submit" class="submit-btn">Получить план</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('checkupForm').onsubmit = function(e) {
+            e.preventDefault();
+            
+            const gender = document.getElementById('genderSelect').value;
+            const ageVal = document.getElementById('ageInput').value;
+            
+            if (!gender) {
+                alert("Пожалуйста, выберите свой пол");
+                return;
+            }
+
+            if (!/^\d+$/.test(ageVal)) {
+                alert("Пожалуйста, введите свой возраст цифрами");
+                return;
+            }
+
+            const age = parseInt(ageVal);
+
+            if (age < 18 || age > 100) {
+                alert("К сожалению, на данный момент для вашего возраста рекомендации не могут быть сформированы");
+                return;
+            }
+
+            document.getElementById('checkupForm').submit();
+        };
+    </script>
+</body>
+</html>

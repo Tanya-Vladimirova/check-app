@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ваш план чек-апа</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f0f2f5; margin: 0; padding: 40px; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); position: relative; }
+        
+        .header-buttons { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .nav-links a { text-decoration: none; color: #007bff; font-weight: bold; font-size: 14px; margin-right: 15px; }
+        
+        .print-btn { background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        
+        h2 { color: #007bff; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
+        .info { color: #555; margin-bottom: 20px; font-style: italic; }
+        
+        ul { list-style: none; padding: 0; text-align: left; }
+        li { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; }
+        li::before { content: "✅"; margin-right: 10px; }
+
+        /* Стили для печати — скрываем кнопки при распечатке */
+        @media print {
+            .header-buttons, .nav-links { display: none !important; }
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header-buttons">
+            <div class="nav-links">
+                <a href="/form">← Назад к анкете</a>
+                <a href="/">🏠 На главную</a>
+            </div>
+            <button class="print-btn" onclick="window.print()">
+                🖨️ Распечатать
+            </button>
+        </div>
+
+        <h2>Ваш персональный план 📋</h2>
+        <p class="info">Рекомендации для: <b>{{ gender }}</b>, возраст: <b>{{ age }}</b></p>
+
+        <ul>
+            {% for item in recommendations %}
+            <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
