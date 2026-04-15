@@ -16,14 +16,26 @@
             text-align: center; 
         }
 
-        .back-btn {
+        .home-btn {
             position: absolute;
             top: 20px;
             left: 20px;
             text-decoration: none;
-            color: #007bff;
-            font-size: 18px;
+            color: #333;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .home-btn:hover {
+            background: #f8f9fa;
         }
 
         h2 {
@@ -71,27 +83,31 @@
 
         .hint { font-size: 11px; color: #888; margin-top: 5px; }
         
-        button.submit-btn { 
-            width: 100%; 
+        .submit-btn { 
+            width: auto; /* Убираем 100% ширину */
+            min-width: 200px; /* Задаем комфортную минимальную ширину */
             background: #007bff; 
             color: white; 
             border: none; 
-            padding: 12px; 
+            padding: 12px 30px; 
             border-radius: 5px; 
             cursor: pointer; 
             margin-top: 10px; 
             font-weight: bold; 
             font-size: 16px;
+            transition: background 0.3s;
         }
         
-        button.submit-btn:hover { background: #0056b3; }
+        .submit-btn:hover { background: #0056b3; }
     </style>
 </head>
 <body>
-    <div class="card">
-        <a href="/" class="back-btn">←</a>
 
-        <h2>📋 Анкета</h2>
+    <a href="/" class="home-btn">← На главную 🏠</a>
+
+    <div class="card">
+
+        <h2>Анкета 📋</h2>
         <p class="description">Введите, пожалуйста, некоторые данные по вашему здоровью, на основе которых будут сформированы рекомендации для чек-апа</p>
 
         <form id="checkupForm" action="/result" method="post">
