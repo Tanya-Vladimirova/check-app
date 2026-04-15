@@ -12,6 +12,28 @@
         
         .print-btn { background: #6c757d; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
         
+        .home-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-decoration: none;
+            color: #333;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.3s;
+        }
+
+        .home-btn:hover {
+            background: #f8f9fa;
+        }
+
         h2 { color: #007bff; border-bottom: 2px solid #f0f2f5; padding-bottom: 10px; }
         .info { color: #555; margin-bottom: 20px; font-style: italic; }
         
@@ -24,10 +46,18 @@
             .header-buttons, .nav-links { display: none !important; }
             body { background: white; padding: 0; }
             .container { box-shadow: none; max-width: 100%; }
+            .home-btn {
+        display: none;
+    }
         }
     </style>
 </head>
 <body>
+    <a href="/" class="home-btn">🏠 &larr; На главную</a>
+    
+    <div class="container">
+        </div>
+        
     <div class="container">
         <div class="header-buttons">
             <div class="nav-links">
