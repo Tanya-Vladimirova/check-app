@@ -1,6 +1,12 @@
-from fastapi import FastAPI, Request, Form
+from fastapi import FastAPI, Request, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from sqlalchemy.orm import Session
+import models
+from database import engine, get_db
+
+# Эта строчка сама создаст таблицы в базе при запуске
+models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -17,6 +23,29 @@ CHECKUPS = {
         "51-100": ["измерение веса", "измерение окружности талии", "измерение артериального давления", "общий анализ крови", "общий анализ мочи", "АСТ", "АЛТ", "ЛПВП", "ЛПНП", "железо", "глюкоза", "ТТГ", "Т3", "Т4", "витамин Д", "УЗИ органов брюшной полости", "УЗИ щитовидной железы", "прием у кардиолога", "УЗИ сердца", "ЭКГ"]
     }
 }
+
+@app.post("/register")
+def register_user(
+    username: str = Form(...),
+    full_name: str = Form(...),
+    password: str = Form(...),
+    db: Session = Depends(get_db)
+):
+    # Простая проверка: нет ли уже такого пользователя
+    existing_user = db.query(models.User).filter(models.User.username == username).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Логин уже занят")
+    
+    # Пока сохраняем пароль как есть (в идеале нужно хешировать)
+    new_user = models.User(
+        username=username,
+        full_name=full_name,
+        hashed_password=password 
+    )
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    return {"message": "Пользователь успешно создан!", "user": new_user.username}
 
 @app.get("/", response_class=HTMLResponse)
 async def home(request: Request):
@@ -45,3 +74,8 @@ async def post_result(request: Request, gender: str = Form(...), age: int = Form
         "gender": gender_text,
         "recommendations": recommendations
     })
+
+@app.get("/register", response_class=HTMLResponse)
+def get_register_form():
+    with open("templates/register.html", "r", encoding="utf-8") as f:
+        return f.read()

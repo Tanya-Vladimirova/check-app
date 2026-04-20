@@ -1,11 +1,12 @@
+version: '3.8'
 services:
   db:
     image: postgres:15
-    container_name: health_check_db
+    container_name: checkapp_db
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: health_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres  # Твой пароль
+      - POSTGRES_DB=postgres        # Имя базы
     ports:
       - "5432:5432"
     restart: always
